@@ -1,0 +1,11 @@
+{% extends 'form.html' %}
+{% load static from staticfiles %}
+{% block head_form %}
+    <link rel="stylesheet" href="{% static 'lib/bootstrap-touchspin-v4.2.5/css/jquery.bootstrap-touchspin.css' %}"/>
+    <script src="{% static 'lib/bootstrap-touchspin-v4.2.5/js/jquery.bootstrap-touchspin.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/intl-tel-input-11.1.2/css/intlTelInput.css' %}"/>
+    <script src="{% static 'lib/intl-tel-input-11.1.2/js/intlTelInput.min.js' %}"></script>
+    <script src="{% static 'lib/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.css' %}"/>
+    <script src="{% static 'person/js/form.js' %}"></script>
+{% endblock %}

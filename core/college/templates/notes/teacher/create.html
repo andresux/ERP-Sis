@@ -1,0 +1,85 @@
+{% extends 'form.html' %}
+{% load static from staticfiles %}
+{% load widget_tweaks %}
+{% block head_form %}
+    <link rel="stylesheet" href="{% static "lib/bootstrap-touchspin-v4.2.5/css/jquery.bootstrap-touchspin.css" %}"/>
+    <script src="{% static "lib/bootstrap-touchspin-v4.2.5/js/jquery.bootstrap-touchspin.js" %}"></script>
+    <script src="{% static 'notes/teacher/js/form.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <form class="form" method="post" action="." enctype="multipart/form-data" id="frmNotes"
+          data-url="{% url 'notes_teacher_list' %}">
+        <div class="card {{ comp.card }} card-outline">
+            <div class="card-header">
+                <h3 class="card-title">
+                    {% if action == 'add' %}
+                        <i class="fas fa-plus" aria-hidden="true"></i>
+                    {% else %}
+                        <i class="fas fa-edit" aria-hidden="true"></i>
+                    {% endif %}
+                    {{ title }}
+                </h3>
+
+            </div>
+            <div class="card-body" style="display: block;">
+                <div class="container-fluid">
+                    {{ form.id }}
+                    {% csrf_token %}
+                    <input type="hidden" id="action" name="action" value="{{ action }}">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="form-group">
+                                <label class="control-label">Curso /Tipo / Periodo:</label>
+                                {{ form.course }}
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="control-label">Materias:</label>
+                                {{ form.matters }}
+                            </div>
+                        </div>
+{#                        <div class="col-lg-3">#}
+{#                            <div class="form-group">#}
+{#                                <label class="control-label">Nota:</label>#}
+{#                                {{ form.semester }}#}
+{#                            </div>#}
+{#                        </div>#}
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <table width="100%" class="table table-bordered table-md" id="tblNotes">
+                                <thead>
+                                <tr>
+                                    <th>Estudiante</th>
+                                    <th>Aporte 1</th>
+                                    <th>Aporte 2</th>
+                                    <th>Aporte 3</th>
+                                    <th>Aporte 4</th>
+                                    <th>Examen</th>
+                                    <th>Nota final</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary btn-flat">
+                    <i class="fas fa-save"></i> Guardar registro
+                </button>
+                <a href="{% url 'notes_teacher_list' %}" class="btn btn-danger btn-flat">
+                    <i class="fa fa-reply" aria-hidden="true"></i> Cancelar
+                </a>
+            </div>
+        </div>
+    </form>
+    <script>
+        var courses = {{ courses|safe }};
+    </script>
+{% endblock %}

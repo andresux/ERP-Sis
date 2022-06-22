@@ -1,0 +1,11 @@
+{% extends 'form.html' %}
+{% load static from staticfiles %}
+{% block head_form %}
+    <script src="{% static 'unit/js/form.js' %}"></script>
+{% endblock %}
+
+{% block footer_form %}
+<hr>
+<h3> Folios </h3>
+<div id="folioContainer"></div>
+{% endblock %}

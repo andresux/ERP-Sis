@@ -1,0 +1,103 @@
+{% extends 'list.html' %}
+{% load static from staticfiles %}
+{% load widget_tweaks %}
+{% block head_list %}
+    <link rel="stylesheet" href="{% static 'lib/bootstrap-touchspin-v4.2.5/css/jquery.bootstrap-touchspin.css' %}"/>
+    <script src="{% static 'lib/bootstrap-touchspin-v4.2.5/js/jquery.bootstrap-touchspin.js' %}"></script>
+    <script src="{% static 'lib/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'lib/formvalidation-dist-v1.5.0/dist/css/formValidation.min.css' %}">
+    <script src="{% static 'lib/formvalidation-dist-v1.5.0/es6-shim.min.js' %}"></script>
+    <script src="{% static 'lib/formvalidation-dist-v1.5.0/dist/js/FormValidation.min.js' %}"></script>
+    <script src="{% static 'lib/formvalidation-dist-v1.5.0/dist/js/plugins/Bootstrap.min.js' %}"></script>
+    <script src="{% static 'lib/formvalidation-dist-v1.5.0/dist/js/locales/es_ES.min.js' %}"></script>
+    <script src="{% static 'ctas_pay/js/list.js' %}"></script>
+    <script src="{% static 'ctas_pay/js/form.js' %}"></script>
+{% endblock %}
+{% block columns %}
+    <th style="width: 5%;">Nro</th>
+    <th style="width: 10%;">Compra</th>
+    <th style="width: 15%;">Fec. Compra</th>
+    <th style="width: 15%;">Fec. Plazo</th>
+    <th style="width: 15%;">Valor</th>
+    <th style="width: 15%;">Saldo</th>
+    <th style="width: 10%;">Estado</th>
+    <th style="width: 15%;" class="text-center">Opciones</th>
+{% endblock %}
+
+{% block content_list_before %}
+    <div id="myModalPay" class="modal fade" role="dialog">
+        <form class="form" id="frmPay" method="POST">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><b><i class="fa fa-plus" aria-hidden="true"></i> Nuevo registro de un
+                            abono</b>
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <input type="hidden" value="0" id="cta">
+                            {% for field in form.visible_fields %}
+                                <div class="form-group">
+                                    <label>{{ field.label }}:</label>
+                                    {{ field }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success btn-flat btn-block">
+                            <i class="fas fa-save"></i> Guardar Pago
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+    <div id="myModalListPay" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><b><i class="fa fa-search" aria-hidden="true"></i> Listado de abonos</b>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table width="100%"
+                                       class="table table-bordered table-md"
+                                       id="tblPays">
+                                    <thead>
+                                    <tr>
+                                        <th>Nro</th>
+                                        <th>F.Registro</th>
+                                        <th>Banco</th>
+                                        <th>Número de cuenta</th>
+                                        <th>Valor</th>
+                                        <th>Detalles</th>
+                                        <th>Opción</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript_list %}
+
+{% endblock %}

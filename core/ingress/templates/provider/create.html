@@ -1,0 +1,7 @@
+{% extends 'form.html' %}
+{% load static from staticfiles %}
+{% block head_form %}
+    <link rel="stylesheet" href="{% static 'lib/intl-tel-input-11.1.2/css/intlTelInput.css' %}"/>
+    <script src="{% static 'lib/intl-tel-input-11.1.2/js/intlTelInput.min.js' %}"></script>
+    <script src="{% static 'provider/js/form.js' %}"></script>
+{% endblock %}

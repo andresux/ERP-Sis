@@ -1,0 +1,43 @@
+{% extends 'list.html' %}
+
+{% block columns %}
+    <th style="width: 5%;" class="text-center">Nro</th>
+    <th style="width: 35%;">Nombre</th>
+    <th style="width: 20%;">Horas de materia o módulo</th>
+    <th style="width: 20%;">Silabo de materia o módulo</th>
+    <th style="width: 20%;" class="text-center">Opciones</th>
+{% endblock %}
+
+{% block rows %}
+    {% for i in object_list %}
+        <tr>
+            <td>{{ i.id }}</td>
+            <td>{{ i.name }}</td>
+            <td>{{ i.credits }}</td>
+             <td class="text-center">
+                {% if i.silabus %}
+                    <a href="{{ i.get_silabus }}" class="btn btn-success btn-xs btn-flat">
+                    <i class="fas fa-file-download"></i>
+                    </a>
+                {% else %}
+                    No hay archivo
+                {% endif %}
+            </td>
+            <td class="text-center">
+                <a href="{% url 'unit_list_matter' i.id %}" data-toggle="tooltip" title="Agregar unidades"
+                   class="btn btn-success btn-xs btn-flat">
+                    <i class="fas fa-clipboard-list" aria-hidden="true"></i>
+                </a>
+                <a href="{% url 'matter_update' i.id %}" data-toggle="tooltip" title="Editar registro"
+                   class="btn btn-warning btn-xs btn-flat">
+                    <i class="fas fa-edit" aria-hidden="true"></i>
+                </a>
+                <a href="{% url 'matter_delete' i.id %}" rel="delete" data-toggle="tooltip" title="Eliminar registro"
+                   class="btn btn-danger btn-xs btn-flat">
+                    <i class="fas fa-trash" aria-hidden="true"></i>
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+{% endblock %}
+

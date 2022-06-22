@@ -1,0 +1,49 @@
+{% extends 'report.html' %}
+{% load widget_tweaks %}
+{% load static from staticfiles %}
+{% block head_report %}
+    <script src="{% static 'salary_report/js/report.js' %}" type="text/javascript"></script>
+{% endblock %}
+{% block content_report %}
+    <div class="row">
+        <div class="col-lg-2">
+            <div class="form-group">
+                <label>Año:</label>
+                {{ form.year|add_class:'form-control' }}
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="form-group">
+                <label>Mes:</label>
+                {{ form.month|add_class:'form-control' }}
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="form-group">
+                <label>Empleado con contrato:</label>
+                {{ form.contracts|add_class:'form-control' }}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <hr>
+            <table class="table table-bordered table-md" id="tblReport" width="100%">
+                <thead>
+                <tr>
+                    <th style="width: 15%;">Empleado</th>
+                    <th style="width: 10%;">Cargo</th>
+                    <th style="width: 10%;">Sueldo contrato</th>
+                    <th style="width: 10%;">Dias Lab.</th>
+                    <th style="width: 10%;">Sueldo por dia</th>
+                    <th style="width: 10%;">Salario Total</th>
+                    <th style="width: 10%;">Ingresos</th>
+                    <th style="width: 10%;">Egresos</th>
+                    <th style="width: 15%;"> Salario a recibir</th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

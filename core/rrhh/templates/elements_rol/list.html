@@ -1,0 +1,33 @@
+{% extends 'list.html' %}
+{% block columns %}
+    <th style="width: 10%;">Nro</th>
+    <th style="width: 45%;">Nombre</th>
+    <th style="width: 15%;">Tipo</th>
+    <th style="width: 15%;">Porcentaje %</th>
+    <th style="width: 15%;" class="text-center">Opciones</th>
+{% endblock %}
+
+{% block rows %}
+    {% for i in object_list %}
+        <tr>
+            <td>{{ i.id }}</td>
+            <td>{{ i.name }}</td>
+            <td class="text-center">
+                {% if i.get_type_display %}
+                    <span class="badge badge-info">Ingreso</span>
+                {% else %}
+                    <span class="badge badge-danger">Egreso</span>
+                {% endif %}
+            </td>
+            <td class="text-center">{{ i.calculation }}</td>
+            <td class="text-center">
+                <a href="{% url 'elements_rol_update' i.id %}" data-toggle="tooltip" title="Editar registro" class="btn btn-warning btn-xs btn-flat">
+                    <i class="fas fa-edit" aria-hidden="true"></i>
+                </a>
+                <a href="{% url 'elements_rol_delete' i.id %}" rel="delete" data-toggle="tooltip" title="Eliminar registro" class="btn btn-danger btn-xs btn-flat">
+                    <i class="fas fa-trash" aria-hidden="true"></i>
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+{% endblock %}

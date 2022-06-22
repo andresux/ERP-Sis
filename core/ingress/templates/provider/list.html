@@ -1,0 +1,32 @@
+{% extends 'list.html' %}
+
+{% block columns %}
+    <th style="width: 5%;">Nro</th>
+    <th style="width: 15%;">Nombres</th>
+    <th style="width: 10%;">Ruc</th>
+    <th style="width: 10%;">Celular</th>
+    <th style="width: 15%;">Email</th>
+    <th style="width: 30%;">Dirección</th>
+    <th style="width: 15%;" class="text-center">Opciones</th>
+{% endblock %}
+
+{% block rows %}
+    {% for i in object_list %}
+        <tr>
+            <td>{{ i.id }}</td>
+            <td>{{ i.name }}</td>
+            <td>{{ i.ruc }}</td>
+            <td>{{ i.mobile }}</td>
+            <td>{{ i.email }}</td>
+            <td>{{ i.address }}</td>
+            <td class="text-center">
+                <a href="{% url 'provider_update' i.id %}" data-toggle="tooltip" title="Editar registro" class="btn btn-warning btn-xs btn-flat">
+                    <i class="fas fa-edit" aria-hidden="true"></i>
+                </a>
+                <a href="{% url 'provider_delete' i.id %}" rel="delete" data-toggle="tooltip" title="Eliminar registro" class="btn btn-danger btn-xs btn-flat">
+                    <i class="fas fa-trash" aria-hidden="true"></i>
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+{% endblock %}

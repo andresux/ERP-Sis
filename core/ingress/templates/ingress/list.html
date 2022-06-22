@@ -1,0 +1,78 @@
+{% extends 'list.html' %}
+{% load static from staticfiles %}
+
+{% block head_list %}
+    <script src="{% static 'ingress/js/list.js' %}"></script>
+{% endblock %}
+
+{% block columns %}
+    <th style="width: 10%;" class="text-center">Nro</th>
+    <th style="width: 15%;">Proveedor</th>
+    <th style="width: 10%;">Ruc</th>
+    <th style="width: 15%;">Forma de Pago</th>
+    <th style="width: 20%;">Fec. de registro</th>
+    <th style="width: 15%;">Total a pagar</th>
+    <th style="width: 15%;" class="text-center">Opciones</th>
+{% endblock %}
+
+{% block rows %}
+    {% for i in object_list %}
+        <tr>
+            <td>{{ i.get_nro }}</td>
+            <td>{{ i.prov.name }}</td>
+            <td>{{ i.prov.ruc }}</td>
+            <td class="text-center">
+                <span class="label {% if i.payment == 1 %}label-primary{% else %}label-danger{% endif %}">{{ i.get_payment_display }}</span>
+            </td>
+            <td>{{ i.date_joined }}</td>
+            <td class="text-center">${{ i.total }}</td>
+            <td class="text-center">
+                <a rel="details" data-toggle="tooltip" title="Ver detalles" class="btn btn-success btn-xs btn-flat">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                </a>
+                <a href="{% url 'ingress_delete' i.id %}" rel="delete" data-toggle="tooltip" title="Eliminar registro"
+                   class="btn btn-danger btn-xs btn-flat">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+{% endblock %}
+
+{% block content_list_before %}
+    <div class="modal fade" id="myModalInventory" role="dialog">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><b><i class="fa fa-search" aria-hidden="true"></i> Detalle de la compra</b>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table width="100%"
+                                       class="table table-bordered table-md table-hover"
+                                       id="tblCompDetails">
+                                    <thead>
+                                    <tr>
+                                        <th>Producto</th>
+                                        <th>Categoria</th>
+                                        <th>Costo</th>
+                                        <th>Cantidad</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

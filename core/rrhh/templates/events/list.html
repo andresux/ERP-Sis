@@ -1,0 +1,32 @@
+{% extends 'list.html' %}
+
+{% block columns %}
+    <th class="text-center">Nro</th>
+    <th>Contrato</th>
+    <th>Empleado</th>
+    <th>Número de cedula</th>
+    <th>Fecha de evento</th>
+    <th>Tipo</th>
+    <th class="text-center"><i class="fa fa-wrench" aria-hidden="true"></i></th>
+{% endblock %}
+
+{% block rows %}
+    {% for i in object_list %}
+        <tr>
+            <td>{{ i.id }}</td>
+            <td>{{ i.cont.get_nro }}</td>
+            <td>{{ i.cont.emp.user.get_full_name }}</td>
+            <td>{{ i.cont.emp.user.dni }}</td>
+            <td>{{ i.start_date|date:'c' }} - {{ i.end_date|date:'c' }}</td>
+            <td>{{ i.get_type_display }}</td>
+            <td class="text-center">
+                <a href="{% url 'events_update' i.id %}" data-toggle="tooltip" title="Editar registro" class="btn btn-warning btn-xs btn-flat">
+                    <i class="fas fa-edit" aria-hidden="true"></i>
+                </a>
+                <a href="{% url 'events_delete' i.id %}" rel="delete" data-toggle="tooltip" title="Eliminar registro" class="btn btn-danger btn-xs btn-flat">
+                    <i class="fas fa-trash" aria-hidden="true"></i>
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+{% endblock %}

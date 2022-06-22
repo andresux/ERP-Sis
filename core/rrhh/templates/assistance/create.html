@@ -1,0 +1,74 @@
+{% extends 'form.html' %}
+{% load static from staticfiles %}
+{% load widget_tweaks %}
+{% block head_form %}
+    <script src="{% static 'lib/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.css' %}"/>
+    <script src="{% static 'assistance/js/form.js' %}" type="text/javascript"></script>
+{% endblock %}
+{% block content %}
+    <form class="form" method="post" action="." enctype="multipart/form-data" id="frmAssistance"
+          data-url="{% url 'assistance_list' %}">
+        <div class="card card-outline {{ comp.card }}">
+            <div class="card-header">
+                <h3 class="card-title">
+                    {% if action == 'add' %}
+                        <i class="fas fa-plus" aria-hidden="true"></i>
+                    {% else %}
+                        <i class="fas fa-edit" aria-hidden="true"></i>
+                    {% endif %}
+                    {{ title }}
+                </h3>
+
+            </div>
+            <div class="card-body" style="display: block;">
+                <div class="container-fluid">
+                    <input type="hidden" name="action" id="action" value="{{ action }}">
+                    {% csrf_token %}
+                    {{ form.id }}
+                    <input type="hidden" id="action" name="action" value="{{ action }}">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="control-label">Fecha de asistencia:</label>
+                                {{ form.date_joined|add_class:"form-control input-sm" }}
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="control-label">Asistencia para todos:</label><br>
+                                <input type="checkbox" class="check" value="" name="chkstateall">
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <table width="100%" class="table table-bordered table-md" id="tblAssistance">
+                                <thead>
+                                <tr>
+                                    <th style="width: 5%;">Nro</th>
+                                    <th style="width: 15%;">Empleado</th>
+                                    <th style="width: 10%;">Imagen</th>
+                                    <th style="width: 15%;">Evento</th>
+                                    <th style="width: 45%;">Detalles</th>
+                                    <th style="width: 10%;">Asistencia</th>
+                                </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary btn-flat">
+                    <i class="fas fa-save"></i> Guardar registro
+                </button>
+                <a href="{% url 'assistance_list' %}" class="btn btn-primary btn-flat">
+                    <i class="fas fa-reply" aria-hidden="true"></i> Cancelar
+                </a>
+            </div>
+        </div>
+    </form>
+{% endblock %}

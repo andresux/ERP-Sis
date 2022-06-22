@@ -1,0 +1,34 @@
+{% extends 'list.html' %}
+
+{% block columns %}
+    <th style="width: 15%;" class="text-center">Fecha</th>
+    <th style="width: 30%;" class="text-center">Curso</th>
+    <th style="width: 20%;" class="text-center">Materia</th>
+    <th style="width: 20%;" class="text-center">Folio</th>
+    <th style="width: 15%;" class="text-center">Opciones</th>
+{% endblock %}
+
+{% block rows %}
+    {% for i in object_list %}
+        <tr>
+            <td>{{ i.date }}</td>
+            <td>{{ i.course }}</td>
+            <td>{{ i.matter }}</td>
+            <td>{{ i.folio }}</td>
+            <td class="text-center">
+                <a href="{% url 'assist_teacher_update' i.id %}" data-toggle="tooltip" title="Editar asistencia"
+                   class="btn btn-warning btn-xs btn-flat">
+                    <i class="fas fa-edit" aria-hidden="true"></i>
+                </a>
+                <a href="{% url 'assist_print' i.id %}" data-toggle="tooltip" title="Imprimir asistencia"
+                   class="btn btn-info btn-xs btn-flat">
+                    <i class="fas fa-print" aria-hidden="true"></i>
+                </a>
+                <a href="{% url 'assist_teacher_delete' i.id %}" rel="delete" data-toggle="tooltip" title="Borrar asistencia"
+                   class="btn btn-danger btn-xs btn-flat">
+                    <i class="fas fa-trash" aria-hidden="true"></i>
+                </a>
+        </tr>
+    {% endfor %}
+{% endblock %}
+

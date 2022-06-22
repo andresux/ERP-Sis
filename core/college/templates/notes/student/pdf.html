@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+{% load static from staticfiles %}
+{% load college_tags %}
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<style>
+    #content {
+        width: 80%;
+        border: 1px solid black;
+    }
+
+    .title {
+        font-size: 25px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    #items-cabecera th {
+        font-size: 11px;
+        font-weight: 400
+    }
+
+    #header {
+        padding-top: 10px;
+        width: 50%;
+        margin: 0;
+        background-color: #000;
+        text-align: center;
+        font-size: 15px;
+        color: #fff;
+        font-weight: 700
+    }
+
+    #items {
+        clear: both;
+        width: 100%;
+        margin: 0 auto;
+        border: 1px solid black;
+    }
+
+    #items th {
+        background-color: #eee;
+        padding-top: 3px;
+    }
+
+    #detalle tr {
+        border: 1px solid black;
+        padding: 2px;
+        padding-top: 4px;
+        background-color: #cdc076;
+        text-align: center;
+    }
+
+    #detalle td {
+        font-size: 8px;
+    }
+
+
+</style>
+<body>
+<p id="header">REPORTE DE NOTAS</p>
+<p class="title">{{ comp.system_name|upper }}</p>
+<table id="items-cabecera" width="100%">
+    <thead style="font-weight: normal">
+    <tr>
+        <th style="width: 50%;">
+            <p style="text-align: left;">
+                <b>ESTUDIANTE:</b> {{ matriculation.student.user.get_full_name|upper }}<br>
+                <b>CURSO:</b> {{ matriculation.course.classroom.name|upper }}
+            </p>
+        </th>
+        <th style="width: 50%;">
+            <p style="text-align: right;">
+                <b>TIPO:</b> {{ matriculation.course.get_level_display|upper }}<br>
+                <b>DURACIÓN:</b> {{ matriculation.course.period.name|upper }}
+            </p>
+        </th>
+    </tr>
+    </thead>
+</table>
+<table id="items" style="width: 100%;">
+    <thead>
+    <tr>
+        <th>Materia</th>
+        <th>Docente</th>
+        <th>Aporte 1</th>
+        <th>Aporte 2</th>
+        <th>Aporte 3</th>
+        <th>Aporte 4</th>
+        <th>Examen</th>
+        <th>Nota final</th>
+        <th>Estado</th>
+    </tr>
+    </thead>
+    <tbody id="detalle">
+    {% for d in matriculation.notes_set.all %}
+        <tr>
+            <td>{{ d.teach_cours_mat.course_mat.mat.name }}</td>
+            <td>{{ d.teach_cours_mat.teacher_mat.teacher.user.get_full_name }}</td>
+            <td>{{ d.lesson1|floatformat:2 }}</td>
+            <td>{{ d.lesson2|floatformat:2 }}</td>
+            <td>{{ d.lesson3|floatformat:2 }}</td>
+            <td>{{ d.lesson4|floatformat:2 }}</td>
+            <td>{{ d.exam|floatformat:2 }}</td>
+            <td>{{ d.average|floatformat:2 }}</td>
+            <td class="text">
+                {% if d.average >= 7 %}
+                    <span class="badge badge-success">Aprobado</span>
+                {% else %}
+                    <span class="badge badge-danger">Reprobado</span>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</body>
+</html>

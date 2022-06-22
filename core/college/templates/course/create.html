@@ -1,0 +1,106 @@
+{% extends 'form.html' %}
+{% load static from staticfiles %}
+{% load widget_tweaks %}
+{% block head_form %}
+    <script src="{% static 'course/js/form.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <form class="form" method="post" action="." enctype="multipart/form-data" id="frmCourse"
+          data-url="{% url 'course_list' %}">
+        <div class="card {{ comp.card }} card-outline">
+            <div class="card-header">
+                <h3 class="card-title">
+                    {% if action == 'add' %}
+                        <i class="fas fa-plus" aria-hidden="true"></i>
+                    {% else %}
+                        <i class="fas fa-edit" aria-hidden="true"></i>
+                    {% endif %}
+                    {{ title }}
+                </h3>
+
+            </div>
+            <div class="card-body" style="display: block;">
+                <div class="container-fluid">
+                    {{ form.id }}
+                    {% csrf_token %}
+                    <input type="hidden" id="action" name="action" value="{{ action }}">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="control-label">Curso:</label>
+                                {{ form.classroom|add_class:'form-control'|attr:'autocomplete:off' }}
+                            </div>
+                        </div>
+                        <div class="col-lg-5">
+                            <div class="form-group">
+                                <label class="control-label">Tipo de Curso:</label>
+                                {{ form.level }}
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="control-label">Periodo o Duración:</label>
+                                {{ form.period }}
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>Búsqueda de materias o módulos:</label>
+                                <div class="input-group margin">
+                                    <input type="text" class="form-control" autocomplete="off" name="search_mat"
+                                           id="search_mat" placeholder="Ingrese el nombre de una materia">
+                                    <span class="input-group-btn">
+                                                  <button class="btn btn-primary btn-flat my-group-button" type="button"
+                                                          id="clearSearchMat">
+                                                      <i class="fa fa-times" aria-hidden="true"></i>
+                                                  </button>
+                                            </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5">
+                            <label>Opciones:</label><br>
+                            <button type="button" class="btn btn-danger btn-flat" id="btnRemoveMatsAll">
+                                <i class="fa fa-trash" aria-hidden="true"></i> Remover todo
+                            </button>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <table width="100%" class="table table-bordered table-md" id="tblMatters">
+                                <thead>
+                                <tr>
+                                    <th style="width: 10%;">Eliminar</th>
+                                    <th style="width: 90%;">Materia</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary btn-flat">
+                    <i class="fas fa-save"></i> Guardar registro
+                </button>
+                <a href="{% url 'course_list' %}" class="btn btn-danger btn-flat">
+                    <i class="fa fa-reply" aria-hidden="true"></i> Cancelar
+                </a>
+            </div>
+        </div>
+    </form>
+    <script type="application/javascript">
+        $(function () {
+            items.details.matters = {{ matters|safe }};
+            console.log(items.details.matters);
+            items.list_matters();
+        });
+    </script>
+{% endblock %}

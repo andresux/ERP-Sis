@@ -1,0 +1,89 @@
+{% extends 'list.html' %}
+{% load static from staticfiles %}
+{% block head_list %}
+    <script src="{% static 'matriculation/student/js/list.js' %}"></script>
+{% endblock %}
+
+{% block columns %}
+    <th class="text-center">Nro</th>
+    <th class="text-center">Curso</th>
+    <th class="text-center">Tipo de Curso</th>
+    <th class="text-center">Periodo</th>
+    <th class="text-center">Estado</th>
+    <th class="text-center">Materias o módulos</th>
+    <th class="text-center">Opciones</th>
+{% endblock %}
+
+{% block rows %}
+    {% for i in object_list %}
+        <tr>
+            <td>{{ i.id }}</td>
+            <td class="text-center">{{ i.course.classroom.name }}</td>
+            <td>{{ i.course.get_level_display }}</td>
+            <td>{{ i.course.period.name }}</td>
+            <td>
+                {% if i.state == 'proceso' %}
+                    <span class="badge badge-info">{{ i.get_state_display }}</span>
+                {% elif i.state == 'aprobado' %}
+                    <span class="badge badge-success">{{ i.get_state_display }}</span>
+                {% elif i.state == 'rechazado' %}
+                    <span class="badge badge-danger">{{ i.get_state_display }}</span>
+                {% endif %}
+            </td>
+            <td class="text-center">
+                <a rel="matters" data-toggle="tooltip" title="Ver materias"
+                   class="btn btn-primary btn-xs btn-flat">
+                    <i class="fas fa-clipboard"></i>
+                </a>
+            </td>
+            <td class="text-center">
+                {% if i.state == 'proceso' %}
+                    <a href="{% url 'matriculation_student_delete' i.id %}" rel="delete" data-toggle="tooltip"
+                       title="Eliminar registro"
+                       class="btn btn-danger btn-xs btn-flat">
+                        <i class="fas fa-trash" aria-hidden="true"></i>
+                    </a>
+                {% else %}
+                   <i class="fas fa-check-circle"></i>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+{% endblock %}
+
+
+{% block content_list_before %}
+    <div class="modal fade" id="myModalMatters" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><b><i class="fa fa-search" aria-hidden="true"></i> Detalles de las
+                        materias</b>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table width="100%"
+                                       class="table table-bordered table-md table-hover"
+                                       id="tblMatters">
+                                    <thead>
+                                    <tr>
+                                        <th>Materia o módulo</th>
+                                        <th>Docente</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

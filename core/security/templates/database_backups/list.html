@@ -1,0 +1,55 @@
+{% extends 'list.html' %}
+{% load static from staticfiles %}
+{% block head_list %}
+    <script src="{% static 'access_users/js/list.js' %}"></script>
+{% endblock %}
+
+{% block columns %}
+    <th style="width: 5%;">Nro</th>
+    <th style="width: 10%">Usuario</th>
+    <th style="width: 15%">Localhost</th>
+    <th style="width: 15%">HostName</th>
+    <th style="width: 30%;">Fecha de registro</th>
+    <th style="width: 10%">Hora</th>
+    <th style="width: 10%">Archivo</th>
+    <th style="width: 5%;" class="text-center"><em class="fas fa-cog"></em></th>
+{% endblock %}
+
+{% block rows %}
+    {% for i in object_list %}
+        <tr>
+            <td>{{ i.id }}</td>
+            <td>{{ i.user_creation.username }}</td>
+            <td>{{ i.localhost }}</td>
+            <td>{{ i.hostname }}</td>
+            <td>{{ i.date_joined|date }}</td>
+            <td>{{ i.hour }}</td>
+            <td>
+                <a href="{{ i.get_archive }}" target="_blank" class="btn btn-primary btn-xs btn-flat"
+                   data-toggle="tooltip" title="Descargar Respaldo">
+                    <i class="fas fa-database" aria-hidden="true"></i>
+                </a>
+            </td>
+            <td class="text-center">
+                <a href="{% url 'database_backups_delete' i.id %}" rel="delete" data-toggle="tooltip"
+                   title="Eliminar registro" class="btn btn-danger btn-xs btn-flat">
+                    <i class="fas fa-trash" aria-hidden="true"></i>
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+{% endblock %}
+
+{% block box_footer_buttons %}
+    <a class="btn btn-primary btn-flat btnAddBackup">
+        <i class="fas fa-plus" aria-hidden="true"></i> Sacar respaldo
+    </a>
+    {% if object_list %}
+        <a class="btn btn-primary btn-flat btnDeleteAll">
+            <i class="fas fa-trash" aria-hidden="true"></i> Eliminar todo
+        </a>
+    {% endif %}
+    <a class="btn btn-primary btn-flat" onclick="location.reload();">
+        <i class="fas fa-refresh" aria-hidden="true"></i> Actualizar
+    </a>
+{% endblock %}

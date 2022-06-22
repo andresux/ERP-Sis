@@ -1,0 +1,44 @@
+{% extends 'list.html' %}
+{% load static from staticfiles %}
+{% block head_list %}
+    <script src="{% static 'lib/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.css' %}"/>
+    <script src="{% static 'audit/js/list.js' %}"></script>
+{% endblock %}
+
+{% block content_list_before %}
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="form-group">
+                <label>Buscar por fecha de registro:</label>
+                <div class="input-group margin-bottom-sm">
+                    <input type="text" class="form-control" autocomplete="off" id="date_joined" name="date_joined" data-toggle="datetimepicker" data-target="#date_joined">
+                    <span class="input-group-addon"><i class="fas fa-calendar-check-o" aria-hidden="true"></i></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+{% endblock %}
+
+{% block columns %}
+    <th>Nro</th>
+    <th>Fecha</th>
+    <th>Hora</th>
+    <th>Tabla</th>
+    <th>Acción</th>
+    <th>Usuario</th>
+    <th>Opción</th>
+{% endblock %}
+
+{% block box_footer_add_button %}
+    {% if object_list %}
+        <a class="btn btn-primary btn-flat btnDeleteAll">
+            <i class="fas fa-trash" aria-hidden="true"></i> Eliminar todo
+        </a>
+    {% endif %}
+{% endblock %}
+
+{% block javascript_list %}
+
+{% endblock %}

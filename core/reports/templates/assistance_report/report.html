@@ -1,0 +1,72 @@
+{% extends 'report.html' %}
+{% load widget_tweaks %}
+{% load static from staticfiles %}
+{% block head_report %}
+    <script src="{% static 'assistance_report/js/report.js' %}" type="text/javascript"></script>
+{% endblock %}
+{% block content_report %}
+    <div class="row">
+        <div class="col-lg-2">
+            <div class="form-group">
+                <label>Año:</label>
+                {{ form.year|add_class:'form-control' }}
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="form-group">
+                <label>Mes:</label>
+                {{ form.month|add_class:'form-control' }}
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="form-group">
+                <label>Docentes:</label>
+                {{ form.contracts }}
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Asistencia general</h3>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered table-md" id="tblReport" width="100%">
+                        <thead>
+                        <tr>
+                            <th style="width: 15%;">Año</th>
+                            <th style="width: 15%;">Mes</th>
+                            <th style="width: 15%;">Dia</th>
+                            <th style="width: 15%;">Hora</th>
+                            <th style="width: 25%;">Docente</th>
+                            <th style="width: 15%;">Asistencia</th>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Asistencia por docente</h3>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered table-md" id="tblReportTeacher" width="100%">
+                        <thead>
+                        <tr>
+                            <th style="width: 50%;">Docente</th>
+                            <th style="width: 25%;">Asistencias</th>
+                            <th style="width: 25%;">Faltas</th>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

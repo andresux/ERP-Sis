@@ -1,0 +1,76 @@
+{% extends 'list.html' %}
+{% load college_tags %}
+{% load static from staticfiles %}
+{% block head_list %}
+    <script src="{% static 'notes/teacher/js/list.js' %}"></script>
+{% endblock %}
+{% block columns %}
+    <th class="text-center">Nro</th>
+    <th>Paralelo</th>
+    <th>Nivel</th>
+    <th>Periodo</th>
+    <th>Materias</th>
+{% endblock %}
+
+{% block rows %}
+    {% for i in object_list %}
+        <tr>
+            <td>{{ i.id }}</td>
+            <td>{{ i.classroom.name }}</td>
+            <td>{{ i.get_level_display }}</td>
+            <td>{{ i.period.name }}</td>
+            <td>
+                {% for mat in i.id|get_matters_prof:user.person.id %}
+                    <a class="btn btn-xs btn-info" rel="notes" data-id="{{ mat.id }}"><i
+                            class="fas fa-clipboard"></i> {{ mat.course_mat.mat.name }}</a>
+                {% endfor %}
+            </td>
+        </tr>
+    {% endfor %}
+{% endblock %}
+
+{% block content_list_before %}
+    <div class="modal fade" id="myModalNotes" role="dialog">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><b><i class="fa fa-search" aria-hidden="true"></i> Detalle de las notas</b>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table width="100%"
+                                       class="table table-bordered table-md table-hover"
+                                       id="tblNotes">
+                                    <thead>
+                                    <tr>
+                                        <th>Estudiante</th>
+                                        <th>Aporte 1</th>
+                                        <th>Aporte 2</th>
+                                        <th>Aporte 3</th>
+                                        <th>Aporte 4</th>
+                                        <th>Examen</th>
+                                        <th>Nota final</th>
+                                        <th>Estado</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger btn-sm btn-block btnRemoveNotes">
+                        <i class="fas fa-trash"></i> Eliminar notas
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

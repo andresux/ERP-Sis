@@ -1,0 +1,38 @@
+{% extends 'list.html' %}
+
+{% block columns %}
+<th style="width: 5%;" class="text-center">Materia</th>
+    <th style="width: 5%;" class="text-center">Nº Unidad</th>
+    <th style="width: 30%;">Nombre de la Unidad</th>
+    <th style="width: 10%;">Total horas Unidad</th>
+    <th style="width: 10%;">Resultados de Aprendizaje</th>
+    <th style="width: 10%;" class="text-center">Horas presenciales</th>
+    <th style="width: 10%;" class="text-center">Horas virtuales</th>
+    <th style="width: 10%;" class="text-center">Horas autónomas</th>
+    <th style="width: 10%;" class="text-center">Opciones</th>
+{% endblock %}
+
+{% block rows %}
+    {% for i in object_list %}
+        <tr>
+            <td>{{ i.matter }}</td>
+            <td>{{ i.number }}</td>
+            <td>{{ i.name }}</td>
+            <td>{{ i.total_hours }}</td>
+            <td>{{ i.learning_result }}</td>
+            <td>{{ i.presencial_hours }}</td>
+            <td>{{ i.virtual_hours }}</td>
+            <td>{{ i.self_hours }}</td>
+            <td class="text-center">
+                <a href="{% url 'unit_update' i.id %}" data-toggle="tooltip" title="Editar unidad"
+                   class="btn btn-warning btn-xs btn-flat">
+                    <i class="fas fa-edit" aria-hidden="true"></i>
+                </a>
+                <a href="{% url 'unit_delete' i.id %}" rel="delete" data-toggle="tooltip" title="Borrar unidad"
+                   class="btn btn-danger btn-xs btn-flat">
+                    <i class="fas fa-trash" aria-hidden="true"></i>
+                </a>
+        </tr>
+    {% endfor %}
+{% endblock %}
+

@@ -1,0 +1,8 @@
+{% extends 'form.html' %}
+{% load static from staticfiles %}
+{% block head_form %}
+    <script src="{% static 'lib/formvalidation-dist-v1.5.0/dist/js/plugins/StartEndDate.min.js' %}"></script>
+    <script src="{% static 'lib/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.css' %}"/>
+    <script src="{% static 'events/js/form.js' %}"></script>
+{% endblock %}

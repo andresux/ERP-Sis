@@ -1,0 +1,177 @@
+{% extends 'form.html' %}
+{% load widget_tweaks %}
+{% load static from staticfiles %}
+{% block head_form %}
+    <link rel="stylesheet" href="{% static 'lib/bootstrap-touchspin-v4.2.5/css/jquery.bootstrap-touchspin.css' %}"/>
+    <script src="{% static 'lib/bootstrap-touchspin-v4.2.5/js/jquery.bootstrap-touchspin.js' %}"></script>
+    <script src="{% static 'lib/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'lib/intl-tel-input-11.1.2/css/intlTelInput.css' %}"/>
+    <script src="{% static 'lib/intl-tel-input-11.1.2/js/intlTelInput.min.js' %}"></script>
+    <script src="{% static 'ingress/js/form.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <form class="form" method="post" action="." enctype="multipart/form-data" id="frmIngress"
+          data-url="{% url 'ingress_list' %}">
+        <div class="card card-outline {{ comp.card }}">
+            <div class="card-header">
+                <h3 class="card-title">
+                    {% if action == 'add' %}
+                        <i class="fas fa-plus" aria-hidden="true"></i>
+                    {% else %}
+                        <i class="fas fa-edit" aria-hidden="true"></i>
+                    {% endif %}
+                    {{ title }}
+                </h3>
+
+            </div>
+            <div class="card-body" style="display: block;">
+                <div class="container-fluid">
+                    {{ form.id }}
+                    {% csrf_token %}
+                    <input type="hidden" id="action" name="action" value="{{ action }}">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="control-label">Fecha de registro:</label>
+                                {{ form.date_joined|add_class:"form-control" }}
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="control-label">Buscar proveedor:</label>
+                                <div class="input-group margin">
+                                    <input type="text" class="form-control" name="search_prov" id="search_prov"
+                                           maxlength="50" placeholder="Ingrese un nombre">
+                                    <span class="input-group-btn">
+                                                <button class="btn btn-primary btn-flat my-group-button" type="button"
+                                                        id="clearSearchProv">
+                                                  <i class="fa fa-times" aria-hidden="true"></i>
+                                                </button>
+                                            </span>
+                                    <span class="input-group-btn">
+                                                <button class="btn btn-info my-group-button btn-flat" type="button"
+                                                        id="btnAddProv">
+                                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                                </button>
+                                            </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="control-label">Ruc:</label>
+                                <input type="text" id="pruc" class="form-control" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="control-label">Forma de pago:</label>
+                                {{ form.payment|add_class:"form-control" }}
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group" id="pnl_end_date" style="display: none;">
+                                <label class="control-label">Fecha plazo del credito:</label>
+                                <input type="text" class="form-control datetimepicker-input" id="end_date"
+                                       name="end_date" data-toggle="datetimepicker" data-target="#end_date">
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-lg-7">
+                            <div class="form-group">
+                                <label>Búsqueda de productos:</label>
+                                <div class="input-group margin">
+                                    <input type="text" class="form-control" autocomplete="off" name="search_product"
+                                           id="search_product" placeholder="Ingrese el nombre de un producto">
+                                    <span class="input-group-btn">
+                                                  <button class="btn btn-primary btn-flat my-group-button" type="button"
+                                                          id="clearSearchProduct">
+                                                      <i class="fa fa-times" aria-hidden="true"></i>
+                                                  </button>
+                                            </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5">
+                            <label>Opciones:</label><br>
+                            <button type="button" class="btn btn-danger btn-flat" id="btnRemoveProductsAll">
+                                <i class="fa fa-trash" aria-hidden="true"></i> Remover todo
+                            </button>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <table width="100%" class="table table-bordered table-md" id="tblProducts">
+                                <thead>
+                                <tr>
+                                    <th style="width: 5%;">Eliminar</th>
+                                    <th style="width: 35%;">Producto</th>
+                                    <th style="width: 15%;">Categoria</th>
+                                    <th style="width: 15%;">Cantidad</th>
+                                    <th style="width: 15%;">Costo</th>
+                                    <th style="width: 15%;">Subtotal</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-success btn-flat">
+                    <i class="fas fa-save"></i> Guardar registro
+                </button>
+                <a href="{% url 'ingress_list' %}" class="btn btn-danger btn-flat">
+                    <i class="fa fa-reply" aria-hidden="true"></i> Cancelar
+                </a>
+            </div>
+        </div>
+    </form>
+    <div id="myModalAddProv" class="modal fade" role="dialog">
+        <form class="form" id="frmProvider" method="POST">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <b><i class="fa fa-plus" aria-hidden="true"></i> Nuevo registro de un proveedor</b>
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            {{ frmProv.id }}
+                            {% for field in frmProv.visible_fields %}
+                                <div class="form-group">
+                                    <label>{{ field.label }}:</label>
+                                    {{ field|add_class:'form-control'|attr:"autocomplete:off" }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success btn-flat">
+                            <i class="glyphicon glyphicon-floppy-disk"></i> Guardar registro
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+    <script type="application/javascript">
+        $(function () {
+            items.list_products();
+        });
+    </script>
+{% endblock %}

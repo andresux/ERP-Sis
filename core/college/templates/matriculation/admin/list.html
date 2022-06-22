@@ -1,0 +1,118 @@
+{% extends 'list.html' %}
+{% load static from staticfiles %}
+{% block head_list %}
+    <link rel="stylesheet" href="{% static 'lib/formvalidation-dist-v1.5.0/dist/css/formValidation.min.css' %}">
+    <script src="{% static 'lib/formvalidation-dist-v1.5.0/es6-shim.min.js' %}"></script>
+    <script src="{% static 'lib/formvalidation-dist-v1.5.0/dist/js/FormValidation.min.js' %}"></script>
+    <script src="{% static 'lib/formvalidation-dist-v1.5.0/dist/js/plugins/Bootstrap.min.js' %}"></script>
+    <script src="{% static 'lib/formvalidation-dist-v1.5.0/dist/js/locales/es_ES.min.js' %}"></script>
+    <script src="{% static 'matriculation/admin/js/list.js' %}"></script>
+{% endblock %}
+
+{% block columns %}
+    <th class="text-center">Nro</th>
+    <th>Estudiante</th>
+    <th>Curso</th>
+    <th>Tipo de Curso</th>
+    <th>Periodo o Duración</th>
+    <th>Estado</th>
+    <th>Materias o módulos</th>
+    <th class="text-center">Opciones</th>
+{% endblock %}
+
+{% block rows %}
+    {% for i in object_list %}
+        <tr>
+            <td>{{ i.id }}</td>
+            <td>{{ i.student.user.get_full_name }}</td>
+            <td class="text-center">{{ i.course.classroom.name }}</td>
+            <td>{{ i.course.get_level_display }}</td>
+            <td>{{ i.course.period.name }}</td>
+            <td class="text-center">
+                {% if i.state == 'proceso' %}
+                    <a class="btn btn-xs btn-info" rel="state"><i class="fas fa-tools"></i> {{ i.get_state_display }}
+                    </a>
+                {% elif i.state == 'aprobado' %}
+                    <span class="badge badge-success">{{ i.get_state_display }}</span>
+                {% elif i.state == 'rechazado' %}
+                    <span class="badge badge-danger">{{ i.get_state_display }}</span>
+                {% endif %}
+            </td>
+            <td class="text-center">
+                <a rel="matters" data-toggle="tooltip" title="Ver materias"
+                   class="btn btn-primary btn-xs btn-flat">
+                    <i class="fas fa-clipboard"></i>
+                </a>
+            </td>
+            <td class="text-center">
+                <a href="{% url 'matriculation_admin_delete' i.id %}" rel="delete" data-toggle="tooltip"
+                   title="Eliminar registro"
+                   class="btn btn-danger btn-xs btn-flat">
+                    <i class="fas fa-trash" aria-hidden="true"></i>
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+{% endblock %}
+
+
+{% block content_list_before %}
+    <div class="modal fade" id="myModalMatters" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><b><i class="fa fa-search" aria-hidden="true"></i> Detalle de las
+                        materias</b>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table width="100%"
+                                       class="table table-bordered table-md table-hover"
+                                       id="tblMatters">
+                                    <thead>
+                                    <tr>
+                                        <th>Materia</th>
+                                        <th>Docente</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="myModalStateMat">
+        <form class="form" method="post" id="frmStateMat">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <i class="fas fa-plus"></i> Estado de la matricula
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Estado:</label>
+                            {{ form.state }}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <i class="fas fa-save"></i> Guardar estado
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

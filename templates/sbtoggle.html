@@ -1,0 +1,59 @@
+{% load security_tags %}
+<aside class="control-sidebar control-sidebar-light">
+    <div class="p-3 control-sidebar-content">
+        <div class="container-fluid">
+            <h6 class="text-center">Configuración de la plantilla</h6>
+            <hr>
+            <div class="row">
+                <div class="col-lg-12">
+                    <form class="form" id="frmTemplate">
+                        {% for field in template.visible_fields %}
+                            <div class="form-group">
+                                <label>{{ field.label }}:</label>
+                                {{ field }}
+                            </div>
+                        {% endfor %}
+                    </form>
+                </div>
+            </div>
+            <hr>
+            <button class="btn btn-primary btn-flat btn-block btnUpdateTemplate">
+                <i class="fas fa-edit" aria-hidden="true"></i> Actualizar
+            </button>
+        </div>
+    </div>
+    <script type="application/javascript">
+        $('select[name="layout_temp"]').val('{{ comp.layout }}');
+        $('select[name="navbar_temp"]').val('{{ comp.navbar }}');
+        $('select[name="brand_logo_temp"]').val('{{ comp.brand_logo }}');
+        $('select[name="card_temp"]').val('{{ comp.card }}');
+        $('select[name="sidebar_temp"]').val('{{ comp.sidebar }}');
+
+        $('#frmTemplate .select2').select2({
+            theme: 'bootstrap4',
+            language: "es",
+            width: 'resolve'
+        });
+
+        $('.btnUpdateTemplate').on('click', function () {
+            dialog_submit_to_ajax('Notificación',
+                '¿Estas seguro de actualizar la plantilla?',
+                "{% url 'change_template' %}",
+                {
+                    'action': "change_layout_template",
+                    'layout': $('select[name="layout_temp"]').val(),
+                    'navbar': $('select[name="navbar_temp"]').val(),
+                    'brand_logo': $('select[name="brand_logo_temp"]').val(),
+                    'card': $('select[name="card_temp"]').val(),
+                    'sidebar': $('select[name="sidebar_temp"]').val(),
+                },
+                function () {
+                    alert_sweetalert('success', 'Notificación', 'Plantilla actualizada correctamente', function () {
+                        location.reload();
+                    }, 2000, "");
+                }
+            )
+        });
+    </script>
+</aside>
+<div class="control-sidebar-bg"></div>
